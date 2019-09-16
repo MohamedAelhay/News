@@ -11,6 +11,10 @@
 |
 */
 
+
+use Illuminate\Support\Facades\Route;
+use Spatie\Permission\Models\Role;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -18,3 +22,17 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+
+//Route::group(['prefix'=>'/roles', 'as'=>'roles.', 'middleware' => 'auth'], function (){
+//    Route::get('', 'RoleController@index')->name('index');
+//    Route::get('create', 'RoleController@create')->name('create');
+//    Route::post('', 'RoleController@store')->name('store')->middleware('auth');
+//    Route::get('{role}', 'RoleController@show')->name('show');
+//    Route::get('{role}/edit', 'RoleController@edit')->name('edit');
+//    Route::PUT('{role}', 'RoleController@update')->name('update');
+//    Route::delete('{role}', 'RoleController@destroy')->name('destroy');
+//});
+Route::resource('roles', 'RoleController')->middleware('auth');
+

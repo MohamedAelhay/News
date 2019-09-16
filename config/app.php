@@ -166,7 +166,7 @@ return [
          * Package Service Providers...
          */
         Biscolab\ReCaptcha\ReCaptchaServiceProvider::class,
-
+        Spatie\Permission\PermissionServiceProvider::class,
         /*
          * Application Service Providers...
          */
