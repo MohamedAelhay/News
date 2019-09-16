@@ -10,9 +10,7 @@
     <div class="middle-box text-center loginscreen animated fadeInDown">
         <div>
             <div>
-
                 <h1 class="logo-name">IN+</h1>
-
             </div>
             <h3>Welcome to IN+</h3>
             <p>Perfectly designed and precisely prepared admin theme with over 50 pages with extra new web app views.
@@ -43,11 +41,11 @@
                 @error("reCaptcha")
                     {!! htmlFormSnippet() !!}
                 @enderror
-{{--                @error('g-recaptcha-response')--}}
-{{--                    <span class="invalid-feedback" role="alert">--}}
-{{--                        <strong>{{ $message }}</strong>--}}
-{{--                    </span>--}}
-{{--                @enderror--}}
+                @error('g-recaptcha-response')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
                 <button type="submit" class="btn btn-primary block full-width m-b">{{ __('Login') }}</button>
 
                 @if (Route::has('password.request'))
