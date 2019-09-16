@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Contracts\Cache\Repository as Cache;
+//use Illuminate\Contracts\Cache\Repository as Cache;
+use App\Rules\ReCaptcha;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -30,18 +32,13 @@ class LoginController extends Controller
      */
     protected $redirectTo = '/home';
     protected $maxAttempts = 5;
-    private $maxAttemptsForCaptcha;
-    private $cache;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(Cache $cache)
+    public function __construct()
     {
-        $this->cache = $cache;
-        $this->maxAttemptsForCaptcha = env('MAX_ATTEMPTS_CAPTCHA', 3);
-
         $this->middleware('guest')->except('logout');
     }
     protected function validateLogin(Request $request)
@@ -49,7 +46,7 @@ class LoginController extends Controller
         $request->validate([
             $this->username() => 'required|string',
             'password' => 'required|string',
-            'g-recaptcha-response' => 'sometimes|recaptcha',
+            'g-recaptcha-response' => new ReCaptcha($this->throttleKey($request)),
         ]);
     }
     protected function credentials(Request $request)
@@ -62,16 +59,17 @@ class LoginController extends Controller
 
     protected function sendFailedLoginResponse(Request $request)
     {
-        $getCacheValue = $this->cache->get($this->throttleKey($request));
-        if($getCacheValue > $this->maxAttemptsForCaptcha)
+        $getCacheValue = Cache::get($this->throttleKey($request));
+
+        $exceptionArray = [$this->username() => [trans('auth.failed')]];
+
+        if($getCacheValue > config('custom.reCaptcha.maxAttempts'))
         {
-            throw ValidationException::withMessages([
-                $this->username() => [trans('auth.failed')],
-                'reCaptcha' => $getCacheValue,
-            ]);
+            $exceptionArray = ['reCaptcha' => $getCacheValue];
         }
-        throw ValidationException::withMessages([
-            $this->username() => [trans('auth.failed')],
-        ]);
+
+        throw ValidationException::withMessages(
+            $exceptionArray
+        );
     }
 }
