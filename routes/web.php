@@ -34,5 +34,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 //    Route::PUT('{role}', 'RoleController@update')->name('update');
 //    Route::delete('{role}', 'RoleController@destroy')->name('destroy');
 //});
-Route::resource('roles', 'RoleController')->middleware('auth');
+Route::group(['middleware'=>'auth'], function () {
+    Route::resource('roles', 'RoleController');
+    Route::resource('cities', 'CityController');
+});
 

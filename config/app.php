@@ -167,6 +167,7 @@ return [
          */
         Biscolab\ReCaptcha\ReCaptchaServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        Webpatser\Countries\CountriesServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -227,6 +228,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'ReCaptcha' => Biscolab\ReCaptcha\Facades\ReCaptcha::class,
+        'Countries' => Webpatser\Countries\CountriesFacade::class,
     ],
 
 ];

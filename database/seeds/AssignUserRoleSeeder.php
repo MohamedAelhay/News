@@ -3,7 +3,7 @@
 use App\User;
 use Illuminate\Database\Seeder;
 
-class assignUserRoleSeeder extends Seeder
+class AssignUserRoleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,5 +13,7 @@ class assignUserRoleSeeder extends Seeder
     public function run()
     {
         User::find(1)->assignRole('super admin');
+        User::find(2)->assignRole('admin');
+        User::find(3)->assignRole('guest');
     }
 }

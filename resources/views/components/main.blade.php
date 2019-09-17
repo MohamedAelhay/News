@@ -29,7 +29,7 @@
                 <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li class="active"><a href={{url('roles/')}}>Roles</a></li>
-                    <li><a href="dashboard_2.html">Dashboard v.2</a></li>
+                    <li><a href={{route('cities.index')}}>Cities</a></li>
                 </ul>
             </li>
             <li>

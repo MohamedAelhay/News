@@ -13,7 +13,7 @@ class RolesTableSeeder extends Seeder
     public function run()
     {
         Role::create(['name'=>'super admin', 'description'=> 'Site General Manager']);
-        Role::create(['name'=>'admin', 'description'=> 'can create & edit roles']);
-        Role::create(['name'=>'guest', 'description'=> 'can see roles only']);
+        Role::create(['name'=>'admin', 'description'=> 'can create & edit']);
+        Role::create(['name'=>'guest', 'description'=> 'can see only']);
     }
 }

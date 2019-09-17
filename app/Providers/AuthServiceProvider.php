@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\City;
+use App\Policies\CityPolicy;
 use App\Policies\RolePolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -15,7 +17,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-         Role::class => RolePolicy::class
+        Role::class => RolePolicy::class,
+        City::class => CityPolicy::class
     ];
 
     /**
