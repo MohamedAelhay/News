@@ -19,7 +19,7 @@ class RolePolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasRole('super admin');
+        return $user->can('show all');
     }
 
     /**
@@ -31,7 +31,7 @@ class RolePolicy
      */
     public function view(User $user, Role $role)
     {
-        return $user->hasRole('super admin');
+        return $user->can('show role');
     }
 
     /**
@@ -42,7 +42,7 @@ class RolePolicy
      */
     public function create(User $user)
     {
-        return $user->hasRole('super admin');
+        return $user->can('create role');
     }
 
     /**
@@ -54,7 +54,7 @@ class RolePolicy
      */
     public function update(User $user, Role $role)
     {
-        return $user->hasRole('super admin');
+        return $user->can('edit role');
     }
 
     /**
@@ -66,7 +66,7 @@ class RolePolicy
      */
     public function delete(User $user, Role $role)
     {
-        return $user->hasRole('super admin');
+        return $user->can('delete role');
     }
 
     /**

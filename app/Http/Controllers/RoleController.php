@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Response;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use App\Http\Requests\roles\RoleStoreRequest;
 use App\Http\Requests\roles\RoleUpdateRequest;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
@@ -105,7 +104,7 @@ class RoleController extends Controller
      *
      * @param Role Object $role
      * @return Response
-     * @throws \Exception
+     * @throws  \Exception
      */
     public function destroy(Role $role)
     {

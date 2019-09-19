@@ -11,9 +11,7 @@
 |
 */
 
-
 use Illuminate\Support\Facades\Route;
-use Spatie\Permission\Models\Role;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,8 +20,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-
-
 
 //Route::group(['prefix'=>'/roles', 'as'=>'roles.', 'middleware' => 'auth'], function (){
 //    Route::get('', 'RoleController@index')->name('index');
@@ -34,6 +30,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 //    Route::PUT('{role}', 'RoleController@update')->name('update');
 //    Route::delete('{role}', 'RoleController@destroy')->name('destroy');
 //});
+
 Route::group(['middleware'=>'auth'], function () {
     Route::resource('roles', 'RoleController');
     Route::resource('cities', 'CityController');

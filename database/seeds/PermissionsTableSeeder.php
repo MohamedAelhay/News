@@ -12,15 +12,16 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run()
     {
-        Permission::create(['name'=>'show role'  ])->assignRole(['super admin', 'admin', 'guest']);
-        Permission::create(['name'=>'edit role'  ])->assignRole(['super admin', 'admin']);
-        Permission::create(['name'=>'create role'])->assignRole(['super admin', 'admin']);
-        Permission::create(['name'=>'delete role'])->assignRole(['super admin']);
+        Permission::create(['name'=>'show all'   ])->assignRole(['manager', 'visitor']);
 
-        Permission::create(['name'=>'show city'  ])->assignRole(['super admin', 'admin', 'guest']);
-        Permission::create(['name'=>'edit city'  ])->assignRole(['super admin', 'admin']);
-        Permission::create(['name'=>'create city'])->assignRole(['super admin', 'admin']);
-        Permission::create(['name'=>'delete city'])->assignRole(['super admin']);
+        Permission::create(['name'=>'show role'  ])->assignRole(['manager', 'visitor']);
+        Permission::create(['name'=>'edit role'  ])->assignRole(['manager']);
+        Permission::create(['name'=>'create role'])->assignRole(['manager']);
+        Permission::create(['name'=>'delete role'])->assignRole(['manager']);
 
+        Permission::create(['name'=>'show city'  ])->assignRole(['manager', 'visitor']);
+        Permission::create(['name'=>'edit city'  ])->assignRole(['manager']);
+        Permission::create(['name'=>'create city'])->assignRole(['manager']);
+        Permission::create(['name'=>'delete city'])->assignRole(['manager']);
     }
 }

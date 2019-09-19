@@ -18,7 +18,7 @@ class CityPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasRole('super admin');
+        return $user->can('show all');
     }
 
     /**
@@ -30,7 +30,7 @@ class CityPolicy
      */
     public function view(User $user, City $city)
     {
-        return $user->hasRole('super admin');
+        return $user->can('show city');
     }
 
     /**
@@ -41,7 +41,7 @@ class CityPolicy
      */
     public function create(User $user)
     {
-        return $user->hasRole('super admin');
+        return $user->can('create city');
     }
 
     /**
@@ -53,7 +53,7 @@ class CityPolicy
      */
     public function update(User $user, City $city)
     {
-        return $user->hasRole('super admin');
+        return $user->can('edit city');
     }
 
     /**
@@ -65,7 +65,7 @@ class CityPolicy
      */
     public function delete(User $user, City $city)
     {
-        return $user->hasRole('super admin');
+        return $user->can('delete city');
     }
 
     /**
@@ -77,7 +77,7 @@ class CityPolicy
      */
     public function restore(User $user, City $city)
     {
-        return $user->hasRole('super admin');
+        //
     }
 
     /**
@@ -89,6 +89,6 @@ class CityPolicy
      */
     public function forceDelete(User $user, City $city)
     {
-        return $user->hasRole('super admin');
+        //
     }
 }

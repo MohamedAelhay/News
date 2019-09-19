@@ -95,15 +95,12 @@
                                     </tr>
                                 @endforeach
                                 </tbody>
-                                <tfoot>
-                                <tr>
-                                    <td colspan="5">
-                                        <ul class="pagination pull-right"></ul>
-                                    </td>
-                                </tr>
-                                </tfoot>
                             </table>
-
+                            <div class="row">
+                                <div class="col-lg-12 text-center">
+                                    {{$cities->links()}}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -129,15 +126,4 @@
 <!-- Custom and plugin javascript -->
 <script src={{ asset("js/inspinia.js")}}></script>
 <script src={{ asset("js/plugins/pace/pace.min.js")}}></script>
-
-<!-- Page-Level Scripts -->
-<script>
-    $(document).ready(function() {
-
-        $('.footable').footable();
-        $('.footable2').footable();
-
-    });
-
-</script>
 @endsection

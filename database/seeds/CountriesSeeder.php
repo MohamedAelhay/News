@@ -20,7 +20,6 @@ class CountriesSeeder extends Seeder {
         $countries = (new Countries())->getList();
         foreach ($countries as $countryId => $country){
             DB::table(\Config::get('countries.table_name'))->insert(array(
-                'id' => $countryId,
                 'full_name' => ((isset($country['full_name'])) ? $country['full_name'] : null),
                 'name' => $country['name'],
             ));

@@ -3,109 +3,125 @@
 namespace App\Http\Controllers;
 
 use App\City;
+use Exception;
+use Illuminate\Http\Response;
+use Webpatser\Countries\Countries;
 use App\Http\Requests\cities\CityStoreRequest;
 use App\Http\Requests\cities\CityUpdateRequest;
-use Illuminate\Http\Request;
-use Webpatser\Countries\Countries;
 
 class CityController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function __construct()
     {
         $this->authorizeResource(City::class, 'city');
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
     public function index()
     {
-        return view('cities.index', [
-            'cities' => City::all()
-        ]);
+        return view(
+            'cities.index', [
+            'cities' => City::paginate(10)
+            ]
+        );
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
-        return view('cities.create', [
+        return view(
+            'cities.create', [
             'countries' => Countries::all()
-        ]);
+            ]
+        );
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request
+     * @return Response
      */
     public function store(CityStoreRequest $request)
     {
         City::create($request->all());
-        return redirect()->route('cities.index')->with([
+        return redirect()->route('cities.index')->with(
+            [
             'success' => 'City "'.$request->name.'" has been Created.'
-        ]);
+            ]
+        );
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\City  $city
-     * @return \Illuminate\Http\Response
+     * @param  City $city
+     * @return Response
      */
     public function show(City $city)
     {
-        return view('cities.show', [
+        return view(
+            'cities.show', [
             'city' => $city
-        ]);
+            ]
+        );
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\City  $city
-     * @return \Illuminate\Http\Response
+     * @param  City $city
+     * @return Response
      */
     public function edit(City $city)
     {
-        return view('cities.edit', [
+        return view(
+            'cities.edit', [
             'city' => $city,
             'countries' => Countries::all()
-        ]);
+            ]
+        );
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\cities\CityUpdateRequest  $request
-     * @param  \App\City  $city
-     * @return \Illuminate\Http\Response
+     * @param  CityUpdateRequest $request
+     * @param  City $city
+     * @return Response
      */
     public function update(CityUpdateRequest $request, City $city)
     {
         $city->update($request->all());
-        return redirect()->route('cities.index')->with([
+        return redirect()->route('cities.index')->with(
+            [
             'success' => 'City "'.$request->name.'" has been Updated.'
-        ]);
+            ]
+        );
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\City  $city
-     * @return \Illuminate\Http\Response
+     * @param  City $city
+     * @return Response
+     * @throws Exception
      */
     public function destroy(City $city)
     {
         $city->delete();
-        return redirect()->route('cities.index')->with([
+        return redirect()->route('cities.index')->with(
+            [
             'success' => 'City "'.$city->name.'" has been Deleted.'
-        ]);
+            ]
+        );
     }
 }

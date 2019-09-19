@@ -12,8 +12,8 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        Role::create(['name'=>'super admin', 'description'=> 'Site General Manager']);
-        Role::create(['name'=>'admin', 'description'=> 'can create & edit']);
-        Role::create(['name'=>'guest', 'description'=> 'can see only']);
+        Role::create(['name'=>'admin', 'description'=> 'Site Admin']);
+        Role::create(['name'=>'manager', 'description'=> 'Site Manager']);
+        Role::create(['name'=>'visitor', 'description'=> 'Visitor with Limited Access']);
     }
 }
