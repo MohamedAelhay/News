@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\City;
+use App\User;
 use Exception;
 use Illuminate\Http\Response;
 use Webpatser\Countries\Countries;
@@ -23,6 +24,8 @@ class CityController extends Controller
      */
     public function index()
     {
+        User::query();
+//        dd(datatables())
         return view(
             'cities.index', [
             'cities' => City::paginate(10)

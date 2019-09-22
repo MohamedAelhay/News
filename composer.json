@@ -10,13 +10,14 @@
     "require": {
         "php": "^7.2",
         "biscolab/laravel-recaptcha": "^4.0",
+        "doctrine/dbal": "v2.4.2",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.0",
         "laravel/tinker": "^1.0",
         "laravel/ui": "^1.0",
         "spatie/laravel-permission": "^3.0",
-        "doctrine/dbal": "v2.4.2",
-        "webpatser/laravel-countries": "dev-master"
+        "webpatser/laravel-countries": "dev-master",
+        "yajra/laravel-datatables-oracle": "~9.0"
     },
     "require-dev": {
         "facade/ignition": "^1.4",

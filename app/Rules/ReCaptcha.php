@@ -27,8 +27,8 @@ class ReCaptcha implements Rule
      */
     public function passes($attribute, $value)
     {
-        if(Cache::get($this->key) > config('custom.reCaptcha.maxAttempts')) {
-            (request('g-recaptcha-response') ? true : false);
+        if($this->key > config('custom.reCaptcha.maxAttempts')) {
+            return (request('g-recaptcha-response') ? true : false);
         }
         return true;
     }

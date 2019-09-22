@@ -38,13 +38,13 @@
                         {{ __('Remember Me') }}
                     </label>
                 </div>
-                @error("reCaptcha")
+                @if($reCaptcha)
                     {!! htmlFormSnippet() !!}
-                @enderror
+                @endif
                 @error('g-recaptcha-response')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
                 @enderror
                 <button type="submit" class="btn btn-primary block full-width m-b">{{ __('Login') }}</button>
 

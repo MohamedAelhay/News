@@ -7,8 +7,10 @@ use App\Rules\ReCaptcha;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use PhpParser\Node\Stmt\Case_;
 
 class LoginController extends Controller
 {
@@ -46,7 +48,7 @@ class LoginController extends Controller
         $request->validate([
             $this->username() => 'required|string',
             'password' => 'required|string',
-            'g-recaptcha-response' => new ReCaptcha($this->throttleKey($request)),
+            'g-recaptcha-response' => new ReCaptcha(Cache::get($request->ip())),
         ]);
     }
     protected function credentials(Request $request)
@@ -59,17 +61,29 @@ class LoginController extends Controller
 
     protected function sendFailedLoginResponse(Request $request)
     {
-        $getCacheValue = Cache::get($this->throttleKey($request));
+        Cache::increment($request->ip());
 
-        $exceptionArray = [$this->username() => [trans('auth.failed')]];
+        throw ValidationException::withMessages([
+            $this->username() => [trans('auth.failed')]
+        ]);
+    }
 
-        if($getCacheValue > config('custom.reCaptcha.maxAttempts'))
-        {
-            $exceptionArray = ['reCaptcha' => $getCacheValue];
-        }
+    public function showLoginForm(Request $request)
+    {
+        $reCaptcha = Cache::get($request->ip()) > config('custom.reCaptcha.maxAttempts') ? true : false;
 
-        throw ValidationException::withMessages(
-            $exceptionArray
-        );
+        return view('auth.login', compact('reCaptcha'));
+    }
+
+    protected function sendLoginResponse(Request $request)
+    {
+        Cache::forget($request->ip());
+
+        $request->session()->regenerate();
+
+        $this->clearLoginAttempts($request);
+
+        return $this->authenticated($request, $this->guard()->user())
+            ?: redirect()->intended($this->redirectPath());
     }
 }
