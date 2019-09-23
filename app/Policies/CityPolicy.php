@@ -18,7 +18,7 @@ class CityPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->can('show all');
+        return $user->can('show city');
     }
 
     /**

@@ -24,8 +24,6 @@ class CityController extends Controller
      */
     public function index()
     {
-        User::query();
-//        dd(datatables())
         return view(
             'cities.index', [
             'cities' => City::paginate(10)
@@ -50,7 +48,7 @@ class CityController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param CityStoreRequest $request
      * @return Response
      */
     public function store(CityStoreRequest $request)

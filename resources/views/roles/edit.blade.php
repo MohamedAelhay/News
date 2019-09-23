@@ -56,20 +56,21 @@
                         <div class="hr-line-dashed"></div>
                         <div class="form-group"><label class="col-sm-2 control-label">Permissions<br/><small class="text-navy">List</small></label>
                             <div class="col-sm-10">
+                                <div class="row">
                                 @foreach($allPermissions as $permission)
-                                    @if(in_array($permission['name'], $rolePermissions->toArray()))
-                                        <div class="i-checks"><label> <input type="checkbox" name="permissions[]" value={{$permission->id}} checked=""> <i></i> {{$permission->name}} </label></div>
+                                @if(in_array($permission['name'], $rolePermissions->toArray()))
+                                        <div class="i-checks col-sm-3"><label> <input type="checkbox" name="permissions[]" value={{$permission->id}} checked=""> <i></i> {{$permission->name}} </label></div>
                                     @else
-                                        <div class="i-checks"><label> <input type="checkbox" name="permissions[]" value={{$permission->id}}> <i></i> {{$permission->name}} </label></div>
-
+                                        <div class="i-checks col-sm-3"><label> <input type="checkbox" name="permissions[]" value={{$permission->id}}> <i></i> {{$permission->name}} </label></div>
                                     @endif
                                 @endforeach
+                                </div>
                             </div>
                         </div>
                         <div class="hr-line-dashed"></div>
                         <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-2">
-                                <button class="btn btn-white" type="submit">Cancel</button>
+                                <a class="btn btn-white" href="{{ URL::previous() }}">Cancel</a>
                                 <button class="btn btn-primary" type="submit">Save changes</button>
                             </div>
                         </div>

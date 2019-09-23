@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', 'Roles Table')
+@section('title', 'Job Details')
 @section('styles')
     <!-- FooTable -->
     <link href={{ asset("css/plugins/footable/footable.core.css")}} rel="stylesheet">
@@ -15,16 +15,16 @@
             @endcomponent
             <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-lg-10">
-                    <h2>Roles</h2>
+                    <h2>Jobs</h2>
                     <ol class="breadcrumb">
                         <li>
                             <a href={{route('home')}}>Home</a>
                         </li>
                         <li class="active">
-                            <a href={{route('roles.index')}}>Roles</a>
+                            <a href={{route('works.index')}}>Roles</a>
                         </li>
                         <li class="active">
-                            <strong>{{$role['name']}}</strong>
+                            <strong>{{$work['name']}}</strong>
                         </li>
                     </ol>
                 </div>
@@ -34,7 +34,7 @@
                     <div class="col-lg-12">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
-                                <h5>All Roles Index</h5>
+                                <h5>All Jobs Index</h5>
 
                                 <div class="ibox-tools">
                                     <a class="collapse-link">
@@ -44,7 +44,7 @@
                                         <i class="fa fa-wrench"></i>
                                     </a>
                                     <ul class="dropdown-menu dropdown-user">
-                                        <li><a href={{url('roles/create')}}>Create New Role</a>
+                                        <li><a href={{url('works/create')}}>Create New Job</a>
                                         </li>
                                         <li><a href="#">Config option 2</a>
                                         </li>
@@ -68,16 +68,16 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>{{$role['description']}}</td>
-                                            <td>{{$role['name']}}</td>
-                                            <td>{{$role['updated_at']}}</td>
-                                            <td>{{$role['created_at']}}</td>
+                                            <td>{{$work['description']}}</td>
+                                            <td>{{$work['name']}}</td>
+                                            <td>{{$work['updated_at']}}</td>
+                                            <td>{{$work['created_at']}}</td>
                                             <td class="text-left">
                                                 <div class="btn-group">
                                                     @can('edit role')
-                                                <a class="btn-white btn btn-xs" href={{route('roles.edit', $role['id'])}}>Edit</a>
+                                                <a class="btn-white btn btn-xs" href={{route('works.edit', $work['id'])}}>Edit</a>
                                                         @can('delete role')
-                                                <form method="POST" role="form" class="form-horizontal" style="display: inline;" action={{route('roles.destroy', $role['id'])}}>
+                                                <form method="POST" role="form" class="form-horizontal" style="display: inline;" action={{route('works.destroy', $work['id'])}}>
                                                     @csrf
                                                     @method('DELETE')
                                                     <button class="btn-white btn btn-xs">Delete</button>

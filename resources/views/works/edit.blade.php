@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', 'Edit City')
+@section('title', 'Edit Job')
 @section('styles')
     <!-- FooTable -->
     <link rel="stylesheet" href={{ asset("css/plugins/iCheck/custom.css")}}>
@@ -17,7 +17,7 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>Edit City</h5>
+                    <h5>Edit Job</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -37,27 +37,21 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-{{--                    @if($errors->any())--}}
+{{--                    @if ($errors->any())--}}
+{{--                        {{ implode('', $errors->all('<div>:message</div>')) }}--}}
 {{--                        <span class="invalid-feedback" role="alert">--}}
-{{--                            <strong>{{ implode('', $errors->all(':message')) }}</strong>--}}
+{{--                            <strong>{{ $message }}</strong>--}}
 {{--                        </span>--}}
 {{--                    @endif--}}
-                    <form method="POST" role="form" class="form-horizontal" action={{route("cities.update", $city->id)}}>
+                    <form method="POST" role="form" class="form-horizontal" action={{route("works.update", $work->id)}}>
                         @csrf
                         @method('PUT')
                         <div class="form-group"><label class="col-sm-2 control-label">Name</label>
-                            <div class="col-sm-10"><input type="text" name="name" value="{{$city->name}}" class="form-control"></div>
+                            <div class="col-sm-10"><input type="text" name="name" value="{{$work->name}}" class="form-control"></div>
                         </div>
-                        <div class="hr-line-dashed"></div>
-                        <div class="form-group"><label class="col-sm-2 control-label">Countries<br/><small class="text-navy">List</small></label>
+                        <div class="form-group"><label class="col-sm-2 control-label">Description</label>
                             <div class="col-sm-10">
-                                <select name="country_id">
-                                    <option value={{$city->country->id}}>{{$city->country->name}}</option>
-                                    @foreach($countries as $country)
-                                        <option value={{$country->id}}>{{$country->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                                <input type="text" name="description" value="{{$work->description}}" class="form-control"></div>
                         </div>
                         <div class="hr-line-dashed"></div>
                         <div class="form-group">

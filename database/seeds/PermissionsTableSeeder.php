@@ -12,7 +12,7 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run()
     {
-        Permission::create(['name'=>'show all'   ])->assignRole(['manager', 'visitor']);
+//        Permission::create(['name'=>'show all'   ])->assignRole(['manager', 'visitor']);
 
         Permission::create(['name'=>'show role'  ])->assignRole(['manager', 'visitor']);
         Permission::create(['name'=>'edit role'  ])->assignRole(['manager']);
@@ -23,5 +23,10 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name'=>'edit city'  ])->assignRole(['manager']);
         Permission::create(['name'=>'create city'])->assignRole(['manager']);
         Permission::create(['name'=>'delete city'])->assignRole(['manager']);
+
+        Permission::create(['name'=>'show job'  ])->assignRole(['manager', 'visitor']);
+        Permission::create(['name'=>'edit job'  ])->assignRole(['manager']);
+        Permission::create(['name'=>'create job'])->assignRole(['manager']);
+        Permission::create(['name'=>'delete job'])->assignRole(['manager']);
     }
 }

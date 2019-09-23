@@ -74,17 +74,14 @@
                                             <td>{{$city['created_at']}}</td>
                                             <td class="text-left">
                                                 <div class="btn-group">
-                                                    @can('show city')
-                                                    <a class="btn-white btn btn-xs" href={{route('cities.show', $city['id'])}}>View</a>
-                                                        @can('edit city')
-                                                    <a class="btn-white btn btn-xs" href={{route('cities.edit', $city['id'])}}>Edit</a>
-                                                            @can('delete city')
-                                                    <form method="POST" role="form" class="form-horizontal" style="display: inline;" action={{route('cities.destroy', $city['id'])}}>
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button class="btn-white btn btn-xs">Delete</button>
-                                                    </form>
-                                                            @endcan
+                                                    @can('edit city')
+                                                <a class="btn-white btn btn-xs" href={{route('cities.edit', $city['id'])}}>Edit</a>
+                                                        @can('delete city')
+                                                <form method="POST" role="form" class="form-horizontal" style="display: inline;" action={{route('cities.destroy', $city['id'])}}>
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn-white btn btn-xs">Delete</button>
+                                                </form>
                                                         @endcan
                                                     @endcan
                                                 </div>

@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', 'Cities Table')
+@section('title', 'Jobs Table')
 @section('styles')
     <!-- FooTable -->
     <link href={{ asset("css/plugins/footable/footable.core.css")}} rel="stylesheet">
@@ -20,13 +20,13 @@
                 </div>
             @endif
             <div class="col-lg-10">
-                <h2>Cities</h2>
+                <h2>Jobs</h2>
                 <ol class="breadcrumb">
                     <li>
                         <a href={{route('home')}}>Home</a>
                     </li>
                     <li class="active">
-                        <strong>Cities</strong>
+                        <strong>Jobs</strong>
                     </li>
                 </ol>
             </div>
@@ -36,7 +36,7 @@
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5>All Cities Index</h5>
+                            <h5>All Roles Index</h5>
 
                             <div class="ibox-tools">
                                 <a class="collapse-link">
@@ -46,7 +46,7 @@
                                     <i class="fa fa-wrench"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-user">
-                                    <li><a href={{route('cities.create')}}>Create New City</a>
+                                    <li><a href={{url('works/create')}}>Create New Job</a>
                                     </li>
                                     <li><a href="#">Config option 2</a>
                                     </li>
@@ -61,28 +61,28 @@
                             <table class="footable table table-stripped toggle-arrow-tiny">
                                 <thead>
                                 <tr>
-                                    <th data-toggle="true">Name</th>
-                                    <th data-hide="all">Country</th>
+                                    <th data-toggle="true">Description</th>
+                                    <th>Name</th>
                                     <th data-hide="all">Last Update</th>
                                     <th data-hide="all">Created at</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($cities as $city)
+                                @foreach($works as $work)
                                     <tr>
-                                        <td>{{$city->name}}</td>
-                                        <td>{{$city->country->name}}</td>
-                                        <td>{{$city->updated_at}}</td>
-                                        <td>{{$city->created_at}}</td>
+                                        <td>{{$work->description}}</td>
+                                        <td>{{$work->name}}</td>
+                                        <td>{{$work->updated_at}}</td>
+                                        <td>{{$work->created_at}}</td>
                                         <td class="text-left">
                                             <div class="btn-group">
 {{--                                                @can('show role')--}}
-                                                <a class="btn-white btn btn-xs" href={{route('cities.show', $city->id)}}>View</a>
+                                                <a class="btn-white btn btn-xs" href={{route('works.show', $work->id)}}>View</a>
 {{--                                                @can('edit role')--}}
-                                                <a class="btn-white btn btn-xs" href={{route('cities.edit', $city->id)}}>Edit</a>
+                                                <a class="btn-white btn btn-xs" href={{route('works.edit', $work->id)}}>Edit</a>
 {{--                                                @can('delete role')--}}
-                                                <form method="POST" role="form" class="form-horizontal" style="display: inline;" action={{route('cities.destroy', $city->id)}}>
+                                                <form method="POST" role="form" class="form-horizontal" style="display: inline;" action={{route('works.destroy', $work->id)}}>
                                                 @csrf
                                                 @method('DELETE')
                                                     <button class="btn-white btn btn-xs">Delete</button>
@@ -95,12 +95,15 @@
                                     </tr>
                                 @endforeach
                                 </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="5">
+                                        <ul class="pagination pull-right"></ul>
+                                    </td>
+                                </tr>
+                                </tfoot>
                             </table>
-                            <div class="row">
-                                <div class="col-lg-12 text-center">
-                                    {{$cities->links()}}
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -128,10 +131,13 @@
 <script src={{ asset("js/plugins/pace/pace.min.js")}}></script>
 
 <!-- Page-Level Scripts -->
-{{--<script>--}}
-{{--    $(document).ready(function() {--}}
-{{--        $('.footable').footable();--}}
-{{--        $('.footable2').footable();--}}
-{{--    });--}}
-{{--</script>--}}
+<script>
+    $(document).ready(function() {
+
+        $('.footable').footable();
+        $('.footable2').footable();
+
+    });
+
+</script>
 @endsection
