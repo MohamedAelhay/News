@@ -25,8 +25,8 @@
                     IN+
                 </div>
             </li>
-            <li class="active">
-                <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span> <span class="fa arrow"></span></a>
+            <li @if(isActive("roles*") || isActive("cities*") || isActive("works*")) class="active" @endif >
+                <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
 
                     <li @if(isActive("roles*")) class="active" @endif><a  href={{route('roles.index')}}>Roles</a></li>
@@ -34,15 +34,15 @@
                     <li @if(isActive("works*")) class="active" @endif><a  href={{route('works.index')}}> Jobs</a></li>
                 </ul>
             </li>
-            <li>
-                <a href="layouts.html"><i class="fa fa-diamond"></i> <span class="nav-label">Layouts</span></a>
+            <li @if(isActive("staff*")) class="active" @endif >
+                <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Users</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+                    <li><a href={{route('staff.index')}}>Staff</a></li>
+                    <li><a href={{route('roles.index')}}>Visitor</a></li>
+                </ul>
             </li>
             <li>
-                <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Graphs</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse">
-                    <li><a href="graph_flot.html">Flot Charts</a></li>
-                    <li><a href="graph_morris.html">Morris.js Charts</a></li>
-                </ul>
+                <a href="layouts.html"><i class="fa fa-diamond"></i> <span class="nav-label">Layouts</span></a>
             </li>
             <li>
                 <a href="mailbox.html"><i class="fa fa-envelope"></i> <span class="nav-label">Mailbox </span><span class="label label-warning pull-right">16/24</span></a>

@@ -231,6 +231,7 @@ return [
         'ReCaptcha' => Biscolab\ReCaptcha\Facades\ReCaptcha::class,
         'Countries' => Webpatser\Countries\CountriesFacade::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        'auth.password.tokens' => Illuminate\Auth\Passwords\TokenRepositoryInterface::class
     ],
 
 ];

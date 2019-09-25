@@ -14,7 +14,7 @@ class CreateWorksTable extends Migration
     public function up()
     {
         Schema::create('works', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('name', 150);
             $table->string('description', 250);
             $table->timestamps();

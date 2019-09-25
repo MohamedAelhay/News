@@ -12,21 +12,24 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run()
     {
-//        Permission::create(['name'=>'show all'   ])->assignRole(['manager', 'visitor']);
+        Permission::create(['name'=>'show role'  ])->assignRole(['staff', 'visitor']);
+        Permission::create(['name'=>'edit role'  ])->assignRole(['staff']);
+        Permission::create(['name'=>'create role'])->assignRole(['staff']);
+        Permission::create(['name'=>'delete role'])->assignRole(['staff']);
 
-        Permission::create(['name'=>'show role'  ])->assignRole(['manager', 'visitor']);
-        Permission::create(['name'=>'edit role'  ])->assignRole(['manager']);
-        Permission::create(['name'=>'create role'])->assignRole(['manager']);
-        Permission::create(['name'=>'delete role'])->assignRole(['manager']);
+        Permission::create(['name'=>'show city'  ])->assignRole(['staff', 'visitor']);
+        Permission::create(['name'=>'edit city'  ])->assignRole(['staff']);
+        Permission::create(['name'=>'create city'])->assignRole(['staff']);
+        Permission::create(['name'=>'delete city'])->assignRole(['staff']);
 
-        Permission::create(['name'=>'show city'  ])->assignRole(['manager', 'visitor']);
-        Permission::create(['name'=>'edit city'  ])->assignRole(['manager']);
-        Permission::create(['name'=>'create city'])->assignRole(['manager']);
-        Permission::create(['name'=>'delete city'])->assignRole(['manager']);
+        Permission::create(['name'=>'show job'  ])->assignRole(['staff', 'visitor']);
+        Permission::create(['name'=>'edit job'  ])->assignRole(['staff']);
+        Permission::create(['name'=>'create job'])->assignRole(['staff']);
+        Permission::create(['name'=>'delete job'])->assignRole(['staff']);
 
-        Permission::create(['name'=>'show job'  ])->assignRole(['manager', 'visitor']);
-        Permission::create(['name'=>'edit job'  ])->assignRole(['manager']);
-        Permission::create(['name'=>'create job'])->assignRole(['manager']);
-        Permission::create(['name'=>'delete job'])->assignRole(['manager']);
+        Permission::create(['name'=>'show staff'  ])->assignRole(['staff', 'visitor']);
+        Permission::create(['name'=>'edit staff'  ])->assignRole(['staff']);
+        Permission::create(['name'=>'create staff'])->assignRole(['staff']);
+        Permission::create(['name'=>'delete staff'])->assignRole(['staff']);
     }
 }

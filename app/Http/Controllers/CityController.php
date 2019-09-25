@@ -125,4 +125,9 @@ class CityController extends Controller
             ]
         );
     }
+
+    public function getCitiesByCountryId($country_id)
+    {
+        return Response()->json(City::whereCountryId($country_id)->pluck('id','name'));
+    }
 }
