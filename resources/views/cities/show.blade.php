@@ -1,8 +1,7 @@
 @extends('app')
 @section('title', 'City Details')
 @section('styles')
-    <!-- FooTable -->
-    <link href={{ asset("css/plugins/footable/footable.core.css")}} rel="stylesheet">
+    @component('components.index.style')@endcomponent
 @endsection
 @section('content')
     <div id="wrapper">
@@ -108,21 +107,5 @@
 
 @endsection
 @section('scripts')
-    <!-- FooTable -->
-    <script src={{ asset("js/plugins/footable/footable.all.min.js")}}></script>
-
-    <!-- Custom and plugin javascript -->
-    <script src={{ asset("js/inspinia.js")}}></script>
-    <script src={{ asset("js/plugins/pace/pace.min.js")}}></script>
-
-    <!-- Page-Level Scripts -->
-    <script>
-        $(document).ready(function() {
-
-            $('.footable').footable();
-            $('.footable2').footable();
-
-        });
-
-    </script>
+    @component('components.index.scripts')@endcomponent
 @endsection

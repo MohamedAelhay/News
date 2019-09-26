@@ -1,18 +1,13 @@
 @extends('app')
 @section('title', 'Staff Table')
 @section('styles')
-    <!-- FooTable -->
-    <link href={{ asset("css/plugins/footable/footable.core.css")}} rel="stylesheet">
+    @component('components.index.style')@endcomponent
 @endsection
 @section('content')
 <div id="wrapper">
-
-    @component('components/main')
-    @endcomponent
-
+    @component('components/main')@endcomponent
     <div id="page-wrapper" class="gray-bg">
-        @component('components/navbar')
-        @endcomponent
+        @component('components/navbar')@endcomponent
         <div class="row wrapper border-bottom white-bg page-heading">
             @if (session('success'))
                 <div class="alert alert-success" role="alert">
@@ -103,7 +98,7 @@
                                         <td>{{$member->gender}}</td>
                                         <td>{{$member->city->name}}</td>
                                         <td>{{$member->country->name}}</td>
-                                        <td><img src="{{ Storage::url($member->images->image)}}"
+                                        <td><img src="{{ Storage::url($member->images[0]->image)}}"
                                                              alt="No Image" class="img-thumbnail" height="50px" width="100px"></td>
                                     </tr>
                                 @endforeach
@@ -136,21 +131,5 @@
 
 @endsection
 @section('scripts')
-<!-- FooTable -->
-<script src={{ asset("js/plugins/footable/footable.all.min.js")}}></script>
-
-<!-- Custom and plugin javascript -->
-<script src={{ asset("js/inspinia.js")}}></script>
-<script src={{ asset("js/plugins/pace/pace.min.js")}}></script>
-
-<!-- Page-Level Scripts -->
-<script>
-    $(document).ready(function() {
-
-        $('.footable').footable();
-        $('.footable2').footable();
-
-    });
-
-</script>
+    @component('components.index.scripts')@endcomponent
 @endsection

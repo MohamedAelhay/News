@@ -38,7 +38,7 @@
                 <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Users</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
                     <li><a href={{route('staff.index')}}>Staff</a></li>
-                    <li><a href={{route('roles.index')}}>Visitor</a></li>
+                    <li><a href={{route('staff.index')}}>Visitor</a></li>
                 </ul>
             </li>
             <li>

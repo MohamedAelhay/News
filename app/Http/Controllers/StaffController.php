@@ -3,19 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\City;
+use App\Work;
+use App\User;
+use App\Staff;
+use App\Traits\Imageable;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
+use Webpatser\Countries\Countries;
+use Illuminate\Http\RedirectResponse;
+use App\Jobs\SendNewStaffResetPassword;
 use App\Http\Requests\staff\StaffStoreRequest;
 use App\Http\Requests\staff\StaffUpdateRequest;
-use App\Jobs\SendNewStaffResetPassword;
-use App\Staff;
-use App\User;
-use App\Work;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Storage;
-use Webpatser\Countries\Countries;
 
 class StaffController extends Controller
 {
+    use Imageable;
+
     public function __construct()
     {
         $this->authorizeResource(Staff::class, 'staff');
@@ -52,41 +55,26 @@ class StaffController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param StaffStoreRequest $request
      * @return Response
      */
     public function store(StaffStoreRequest $request)
     {
-        $user = User::create($request->all() + ['password' => User::generatePassword()]);
+        DB::transaction(function () use ($request) {
+            $user = User::create($request->all() + ['password' => User::generatePassword()]);
 
-        $staff = Staff::create($request->all() + ['user_id' => $user->id]);
+            $user->staff()->create($request->all());
 
-        $this->saveMorphImage($staff, $this->upload($request->file('image')));
+            $this->createImageable($user->staff, config('custom.staffImages.location'), $request->file('image'));
 
-        $token = $this->getToken($user);
-
-        dispatch(new SendNewStaffResetPassword($user->email, $token));
+            dispatch(new SendNewStaffResetPassword($user->email, $user->getToken()));
+        });
 
         return redirect()->route('staff.index')->with(
             [
                 'success' => 'Staff Member: "'.$request->fname.' '.$request->lname.'" has been Created.'
             ]
         );
-    }
-
-    private function getToken($user)
-    {
-        return app('auth.password.broker')->createToken($user);
-    }
-
-    private function upload($path)
-    {
-        return Storage::putFile('public/staff', $path);
-    }
-
-    private function saveMorphImage($staff, $path)
-    {
-        $staff->images()->create(['image' => $path]);
     }
 
     /**
@@ -131,7 +119,7 @@ class StaffController extends Controller
 
         if($request->file('image'))
         {
-            $this->saveMorphImage($staff, $this->upload($request->file('image')));
+            $this->createImageable($staff, config('custom.staffImages.location'), $request->file('image'));
         }
 
         return redirect()->route('staff.index')->with([

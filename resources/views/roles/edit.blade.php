@@ -1,10 +1,7 @@
 @extends('app')
 @section('title', 'Create Role')
 @section('styles')
-    <!-- FooTable -->
-    <link rel="stylesheet" href={{ asset("css/plugins/iCheck/custom.css")}}>
-    <link rel="stylesheet" href={{ asset("css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css")}}>
-
+    @component('components.create&edit.style')@endcomponent
 @endsection
 @section('content')
     <div id="wrapper">
@@ -37,12 +34,7 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-{{--                    @if ($errors->any())--}}
-{{--                        {{ implode('', $errors->all('<div>:message</div>')) }}--}}
-{{--                        <span class="invalid-feedback" role="alert">--}}
-{{--                            <strong>{{ $message }}</strong>--}}
-{{--                        </span>--}}
-{{--                    @endif--}}
+
                     <form method="POST" role="form" class="form-horizontal" action={{route("roles.update", $role->id)}}>
                         @csrf
                         @method('PUT')
@@ -91,18 +83,5 @@
     </div>
 @endsection
 @section('scripts')
-    <!-- Custom and plugin javascript -->
-    <script src={{ asset("js/inspinia.js")}}></script>
-    <script src={{ asset("js/plugins/pace/pace.min.js")}}></script>
-
-    <!-- iCheck -->
-    <script src={{ asset("js/plugins/iCheck/icheck.min.js")}}></script>
-    <script>
-        $(document).ready(function () {
-            $('.i-checks').iCheck({
-                checkboxClass: 'icheckbox_square-green',
-                radioClass: 'iradio_square-green',
-            });
-        });
-    </script>
+    @component('components.create&edit.scripts')@endcomponent
 @endsection

@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Actionable emails e.g. reset password</title>
-    <link href={{asset("styles.css")}} media="all" rel="stylesheet" type="text/css" />
+    <link href={{asset("css/styles.css")}} media="all" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -25,7 +25,7 @@
                                 </tr>
                                 <tr>
                                     <td class="content-block">
-                                        <h3>Welcome Mohamed A.Elhay Project</h3>
+                                        <h3>Welcome to Mohamed A.Elhay Project</h3>
                                     </td>
                                 </tr>
                                 <tr>
@@ -36,8 +36,10 @@
                                 <tr>
                                     <td class="content-block">
                                         Your E-Mail : {{$email}}
-                                        Kindly visit the link below to reset your password.
                                     </td>
+                                </tr>
+                                <tr>
+                                    Kindly visit the link below to reset your password.
                                 </tr>
                                 <tr>
                                     <td class="content-block aligncenter">
@@ -48,13 +50,7 @@
                         </td>
                     </tr>
                 </table>
-                <div class="footer">
-                    <table width="100%">
-                        <tr>
-                            <td class="aligncenter content-block">Follow <a href="#">@Company</a> on Twitter.</td>
-                        </tr>
-                    </table>
-                </div></div>
+            </div>
         </td>
         <td></td>
     </tr>

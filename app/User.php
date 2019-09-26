@@ -48,4 +48,14 @@ class User extends Authenticatable
     {
         return bcrypt(Str::random(10));
     }
+
+    public function staff()
+    {
+        return $this->hasOne(Staff::class);
+    }
+
+    public function getToken()
+    {
+        return app('auth.password.broker')->createToken($this);
+    }
 }

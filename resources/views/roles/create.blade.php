@@ -1,10 +1,7 @@
 @extends('app')
 @section('title', 'Create Role')
 @section('styles')
-    <!-- FooTable -->
-    <link rel="stylesheet" href={{ asset("css/plugins/iCheck/custom.css")}}>
-    <link rel="stylesheet" href={{ asset("css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css")}}>
-
+    @component('components.create&edit.style')@endcomponent
 @endsection
 @section('content')
     <div id="wrapper">
@@ -37,23 +34,27 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    @if ($errors->any())
-                        {{ implode('', $errors->all('<div>:message</div>')) }}
-                    @endif
                     <form method="POST" role="form" class="form-horizontal" action={{url("roles")}}>
                         @csrf
+
                         <div class="form-group"><label class="col-sm-2 control-label">Name</label>
-                            <div class="col-sm-10"><input type="text" name="name" class="form-control"></div>
+                            <div class="col-sm-10"><input type="text" name="name" class="form-control">
+                                @component('components.error', ['errorName'=>'name'])@endcomponent
+                            </div>
                         </div>
                         <div class="form-group"><label class="col-sm-2 control-label">Description</label>
-                            <div class="col-sm-10"><input type="text" name="description" class="form-control"></div>
+                            <div class="col-sm-10"><input type="text" name="description" class="form-control">
+                                @component('components.error', ['errorName'=>'description'])@endcomponent
+                            </div>
                         </div>
                         <div class="hr-line-dashed"></div>
                         <div class="form-group"><label class="col-sm-2 control-label">Permissions<br/><small class="text-navy">List</small></label>
                             <div class="col-sm-10">
-                                @foreach($permissions as $permission)
-                                <div class="i-checks"><label> <input type="checkbox" name="permissions[]" value={{$permission->id}}> <i></i> {{$permission->name}} </label></div>
-                                @endforeach
+                                <div class="row">
+                                    @foreach($permissions as $permission)
+                                            <div class="i-checks col-sm-3"><label> <input type="checkbox" name="permissions[]" value={{$permission->id}}> <i></i> {{$permission->name}} </label></div>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                         <div class="hr-line-dashed"></div>
@@ -80,18 +81,5 @@
     </div>
 @endsection
 @section('scripts')
-    <!-- Custom and plugin javascript -->
-    <script src={{ asset("js/inspinia.js")}}></script>
-    <script src={{ asset("js/plugins/pace/pace.min.js")}}></script>
-
-    <!-- iCheck -->
-    <script src={{ asset("js/plugins/iCheck/icheck.min.js")}}></script>
-    <script>
-        $(document).ready(function () {
-            $('.i-checks').iCheck({
-                checkboxClass: 'icheckbox_square-green',
-                radioClass: 'iradio_square-green',
-            });
-        });
-    </script>
+    @component('components.create&edit.scripts')@endcomponent
 @endsection

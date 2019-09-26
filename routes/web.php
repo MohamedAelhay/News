@@ -38,4 +38,4 @@ Route::group(['middleware'=>'auth'], function () {
     Route::resource('cities', 'CityController');
 });
 
-Route::get('citiesByCountry/{country}', 'CityController@getCitiesByCountryId')->name('ajax');
+Route::get('citiesByCountry/{country}', 'CityController@getCitiesByCountryId')->name('cityAjax');

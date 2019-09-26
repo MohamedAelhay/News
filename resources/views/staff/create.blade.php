@@ -1,9 +1,7 @@
 @extends('app')
 @section('title', 'Create Job')
 @section('styles')
-    <!-- FooTable -->
-    <link rel="stylesheet" href={{ asset("css/plugins/iCheck/custom.css")}}>
-    <link rel="stylesheet" href={{ asset("css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css")}}>
+    @component('components.create&edit.style')@endcomponent
 
     <link href={{asset("css/plugins/jasny/jasny-bootstrap.min.css")}} rel="stylesheet">
     <link href={{asset("css/plugins/codemirror/codemirror.css")}} rel="stylesheet">
@@ -39,24 +37,26 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    @if ($errors->any())
-                        {{ implode('', $errors->all('<div>:message</div>')) }}
-                    @endif
+
                     <form method="POST" enctype="multipart/form-data" class="form-horizontal" action={{route("staff.store")}}>
                         @csrf
 
                         <div class="row" style="padding: 20px">
                             <div class="form-group col-sm-6 row"><label class="col-sm-4 control-label">First Name</label>
                                 <input type="text" name="fname" class="col-sm-8" value="{{ old('fname') }}"placeholder="First Name" required="">
+                                @component('components.error', ['errorName'=>'fname'])@endcomponent
                             </div>
                             <div class="form-group col-sm-6 row"><label class="col-sm-4 control-label">Last Name</label>
                                 <input type="text" name="lname" class="col-sm-8" value="{{ old('lname') }}"placeholder="Last Name" required="">
+                                @component('components.error', ['errorName'=>'lname'])@endcomponent
                             </div>
                             <div class="form-group col-sm-6 row"><label class="col-sm-4 control-label">E-mail</label>
                                 <input type="text" name="email" class="col-sm-8" value="{{ old('email') }}"placeholder="E-mail" required="">
+                                @component('components.error', ['errorName'=>'email'])@endcomponent
                             </div>
                             <div class="form-group col-sm-6 row"><label class="col-sm-4 control-label">Phone</label>
                                 <input type="text" name="phone" class="col-sm-8" value="{{ old('phone') }}"placeholder="Phone" required="">
+                                @component('components.error', ['errorName'=>'phone'])@endcomponent
                             </div>
                             <div class="form-group col-sm-6 row"><label class="col-sm-4 control-label" style="margin-top:-12px">Gender<br/><small class="text-navy">List</small></label>
                                 <select name="gender" class="col-sm-8">
@@ -64,6 +64,7 @@
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
                                 </select>
+                                @component('components.error', ['errorName'=>'gender'])@endcomponent
                             </div>
                             <div class="form-group col-sm-6 row"><label class="col-sm-4 control-label" style="margin-top:-12px">Job<br/><small class="text-navy">List</small></label>
                                 <select name="work_id" class="col-sm-8">
@@ -72,6 +73,7 @@
                                         <option value={{$work->id}}>{{$work->name}}</option>
                                     @endforeach
                                 </select>
+                                @component('components.error', ['errorName'=>'work_id'])@endcomponent
                             </div>
                             <div class="form-group col-sm-6 row"><label class="col-sm-4 control-label" style="margin-top:-12px">Countries<br/><small class="text-navy">List</small></label>
                                 <select name="country_id" class="col-sm-8" id="country">
@@ -80,12 +82,14 @@
                                         <option value={{$country->id}}>{{$country->name}}</option>
                                     @endforeach
                                 </select>
+                                @component('components.error', ['errorName'=>'country_id'])@endcomponent
                             </div>
                             <div class="form-group col-sm-6 row"><label class="col-sm-4 control-label" style="margin-top:-12px">Cities<br/><small class="text-navy">List</small></label>
                                 <select name="city_id" class="col-sm-8" id="city">
                                     <option value="">Select City</option>
                                     {{-- Script --}}
                                 </select>
+                                @component('components.error', ['errorName'=>'city_id'])@endcomponent
                             </div>
                         </div>
                         <div class="fileinput fileinput-new col-sm-offset-4 row" data-provides="fileinput">
@@ -96,6 +100,7 @@
                                 <span class="fileinput-filename"></span>
                                 <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">×</a>
                             </div>
+                            @component('components.error', ['errorName'=>'image'])@endcomponent
                         </div>
 
                         <div class="hr-line-dashed"></div>
@@ -122,46 +127,5 @@
     </div>
 @endsection
 @section('scripts')
-    <!-- Custom and plugin javascript -->
-    <script src={{ asset("js/inspinia.js")}}></script>
-    <script src={{ asset("js/plugins/pace/pace.min.js")}}></script>
-
-    <!-- iCheck -->
-    <script src={{ asset("js/plugins/iCheck/icheck.min.js")}}></script>
-    <script>
-        $(document).ready(function () {
-            $('.i-checks').iCheck({
-                checkboxClass: 'icheckbox_square-green',
-                radioClass: 'iradio_square-green',
-            });
-            $('#country').change(function () {
-                let country_id = $(this).val();
-                $.ajax({
-                    type:'GET',
-                    url: 'http://localhost:8000/citiesByCountry/' + country_id,
-                    success:function(cities){
-                        $('#city').empty()
-                        if(Object.keys(cities).length != 0)
-                            {
-                                $('#city').append("<option value=''>Select City</option>")
-                                $.each(cities, function(name, id){
-                                $('#city').append("<option value=" + id + ">" + name +"</option>")
-                                });
-                            }
-                        else
-                        {
-                            $('#city').append("<option value=''>No City</option>")
-                        }
-                    },
-                    error:function () {
-                        alert("You Should Select Country");
-                    }
-                })
-            });
-        });
-    </script>
-
-    <!-- Jasny For File Upload-->
-    <script src={{asset("js/plugins/jasny/jasny-bootstrap.min.js")}}></script>
-
+    @component('components.create&edit.cityAjax', ['url' => 'citiesByCountry']) @endcomponent
 @endsection

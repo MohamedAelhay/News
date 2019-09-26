@@ -31,6 +31,6 @@ class Staff extends Model
 
     public function images()
     {
-        return $this->morphOne(Image::class, 'imgable');
+        return $this->morphMany(Image::class, 'imgable');
     }
 }
