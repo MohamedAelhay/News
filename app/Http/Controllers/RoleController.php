@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\City;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Response;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Http\Requests\roles\RoleStoreRequest;
 use App\Http\Requests\roles\RoleUpdateRequest;
+use Yajra\DataTables\Facades\DataTables;
 
 class RoleController extends Controller
 {
@@ -21,13 +25,23 @@ class RoleController extends Controller
         $this->authorizeResource(Role::class, 'role');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('roles.index', [
-            'roles' => Role::all()
-        ]);
-    }
+//        dd(DataTables::eloquent(Role::query())
+//            ->addColumn('Actions', function ($role){
+//                return view('roles.actions', compact('role'));
+//            })
+//            ->toJson());
+        if($request->ajax()){
+            return DataTables::eloquent(Role::query())
+                ->addColumn('actions', function ($role){
+                    return view('roles.actions', compact('role'));
+                })
+                ->toJson();
+        }
 
+        return view('roles.index');
+    }
     /**
      * Show the form for creating a new resource.
      *

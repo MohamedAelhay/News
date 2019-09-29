@@ -57,52 +57,44 @@
                         </div>
                         <div class="ibox-content">
 
-                            <table class="footable table table-stripped toggle-arrow-tiny">
+                            <table class="footable table table-stripped toggle-arrow-tiny" id="index-table">
                                 <thead>
                                 <tr>
-                                    <th data-toggle="true">Description</th>
                                     <th>Name</th>
+                                    <th data-toggle="true">Description</th>
                                     <th data-hide="all">Last Update</th>
                                     <th data-hide="all">Created at</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                @foreach($roles as $role)
-                                    <tr>
-                                        <td>{{$role->description}}</td>
-                                        <td>{{$role->name}}</td>
-                                        <td>{{$role->updated_at}}</td>
-                                        <td>{{$role->created_at}}</td>
-                                        <td class="text-left">
-                                            <div class="btn-group">
+{{--                                <tbody>--}}
+{{--                                @foreach($roles as $role)--}}
+{{--                                    <tr>--}}
+{{--                                        <td>{{$role->description}}</td>--}}
+{{--                                        <td>{{$role->name}}</td>--}}
+{{--                                        <td>{{$role->updated_at}}</td>--}}
+{{--                                        <td>{{$role->created_at}}</td>--}}
+{{--                                        <td class="text-left">--}}
+{{--                                            <div class="btn-group">--}}
 {{--                                                @can('show role')--}}
-                                                <a class="btn-white btn btn-xs" href={{route('roles.show', $role->id)}}>View</a>
+{{--                                                <a class="btn-white btn btn-xs" href={{route('roles.show', $role->id)}}>View</a>--}}
 {{--                                                @can('edit role')--}}
-                                                <a class="btn-white btn btn-xs" href={{route('roles.edit', $role->id)}}>Edit</a>
+{{--                                                <a class="btn-white btn btn-xs" href={{route('roles.edit', $role->id)}}>Edit</a>--}}
 {{--                                                @can('delete role')--}}
-                                                <form method="POST" role="form" class="form-horizontal" style="display: inline;" action={{route('roles.destroy', $role->id)}}>
-                                                @csrf
-                                                @method('DELETE')
-                                                    <button class="btn-white btn btn-xs">Delete</button>
-                                                </form>
+{{--                                                <form method="POST" role="form" class="form-horizontal" style="display: inline;" action={{route('roles.destroy', $role->id)}}>--}}
+{{--                                                @csrf--}}
+{{--                                                @method('DELETE')--}}
+{{--                                                    <button class="btn-white btn btn-xs">Delete</button>--}}
+{{--                                                </form>--}}
 {{--                                                @endcan--}}
 {{--                                                @endcan--}}
 {{--                                                @endcan--}}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <td colspan="5">
-                                        <ul class="pagination pull-right"></ul>
-                                    </td>
-                                </tr>
-                                </tfoot>
+{{--                                            </div>--}}
+{{--                                        </td>--}}
+{{--                                    </tr>--}}
+{{--                                @endforeach--}}
+{{--                                </tbody>--}}
                             </table>
-
                         </div>
                     </div>
                 </div>
