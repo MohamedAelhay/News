@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\City;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Response;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;

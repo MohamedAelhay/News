@@ -1,9 +1,9 @@
 <?php
 
-use App\Staff;
+use App\Visitor;
 use Illuminate\Database\Seeder;
 
-class StaffTableSeeder extends Seeder
+class VisitorTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,7 +12,7 @@ class StaffTableSeeder extends Seeder
      */
     public function run()
     {
-        foreach (factory(Staff::class, 5)->create() as $member)
+        foreach (factory(Visitor::class, 5)->create() as $member)
         {
             $member->images()->create(['image'=>'public/staff/kotNIgklO1bfaWIAP0QCpaBIhWQlDbS0o28HQB1k.jpeg']);
         }

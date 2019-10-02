@@ -6,9 +6,7 @@ use App\City;
 use App\Work;
 use App\User;
 use App\Staff;
-use App\Traits\Imageable;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
 use Webpatser\Countries\Countries;
 use Illuminate\Http\RedirectResponse;
 use App\Jobs\SendNewStaffResetPassword;
@@ -17,8 +15,6 @@ use App\Http\Requests\staff\StaffUpdateRequest;
 
 class StaffController extends Controller
 {
-    use Imageable;
-
     public function __construct()
     {
         $this->authorizeResource(Staff::class, 'staff');
@@ -60,15 +56,16 @@ class StaffController extends Controller
      */
     public function store(StaffStoreRequest $request)
     {
-        DB::transaction(function () use ($request) {
-            $user = User::create($request->all() + ['password' => User::generatePassword()]);
+        $user = User::create($request->all() + ['password' => User::generatePassword()]);
 
-            $user->staff()->create($request->all());
+        $user->staff()->create($request->all());
 
-            $this->createImageable($user->staff, config('custom.staffImages.location'), $request->file('image'));
+        $user->staff
+            ->upload($request->file('image'))
+            ->images()
+            ->create(['image' => $user->staff->imagePath]);
 
-            dispatch(new SendNewStaffResetPassword($user->email, $user->getToken()));
-        });
+        dispatch(new SendNewStaffResetPassword($user->email, $user->getToken()));
 
         return redirect()->route('staff.index')->with(
             [
@@ -117,10 +114,9 @@ class StaffController extends Controller
 
         $staff->user->update($request->all());
 
-        if($request->file('image'))
-        {
-            $this->createImageable($staff, config('custom.staffImages.location'), $request->file('image'));
-        }
+        $staff->upload($request->file('image'))
+              ->images()
+              ->create(['image' => $staff->imagePath]);
 
         return redirect()->route('staff.index')->with([
             'success' => 'Staff "'.$request->fname.'" has been Updated.'

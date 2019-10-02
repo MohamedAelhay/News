@@ -54,6 +54,11 @@ class User extends Authenticatable
         return $this->hasOne(Staff::class);
     }
 
+    public function visitor()
+    {
+        return $this->hasOne(Visitor::class);
+    }
+
     public function getToken()
     {
         return app('auth.password.broker')->createToken($this);

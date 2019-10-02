@@ -17,6 +17,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+\Illuminate\Support\Facades\DB::listen(function ($query)
+{
+    logger($query->sql);
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -36,6 +41,7 @@ Route::group(['middleware'=>'auth'], function () {
     Route::resource('works', 'WorkController');
     Route::resource('staff', 'StaffController');
     Route::resource('cities', 'CityController');
+    Route::resource('visitors', 'VisitorController');
 });
 
 Route::get('citiesByCountry/{country}', 'CityController@getCitiesByCountryId')->name('cityAjax');

@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CitiesTableSeeder::class);
         $this->call(WorksTableSeeder::class);
         $this->call(StaffTableSeeder::class);
+        $this->call(VisitorTableSeeder::class);
         $this->command->info('Seeded the countries!');
     }
 }
