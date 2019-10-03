@@ -3,11 +3,13 @@
 namespace App;
 
 use App\Traits\ImageUpload;
+use App\Traits\Toggle;
 use Illuminate\Database\Eloquent\Model;
 use Webpatser\Countries\Countries;
 
 class Staff extends Model
 {
+    use Toggle;
     use ImageUpload;
 
     protected $fillable = ['gender', 'work_id', 'user_id', 'city_id','country_id', 'is_active'];

@@ -79,14 +79,13 @@
                                             <td>{{$staff->job->name}}</td>
                                             <td>
                                                 @if($staff->is_active)
-                                                    <span class="label label-primary">Active</span>
+                                                    <span class="label label-primary status" id="{{$staff->id}}">Active</span>
                                                 @else
-                                                    <span class="label label-default">Unactive</span>
+                                                    <span class="label label-default status" id="{{$staff->id}}">Unactive</span>
                                                 @endif
                                             </td>
                                             <td class="text-left">
                                                 <div class="btn-group">
-                                                    <a class="btn-white btn btn-xs" href={{route('staff.show', $staff->id)}}>View</a>
                                                     <a class="btn-white btn btn-xs" href={{route('staff.edit', $staff->id)}}>Edit</a>
                                                     <form method="POST" role="form" class="form-horizontal" style="display: inline;" action={{route('staff.destroy', $staff->id)}}>
                                                         @csrf
@@ -131,5 +130,6 @@
 
 @endsection
 @section('scripts')
+    @component('components.ajax.toggleStatus')@endcomponent
     @component('components.index.scripts')@endcomponent
 @endsection

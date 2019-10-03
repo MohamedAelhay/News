@@ -77,9 +77,9 @@
                                             <td>{{$visitor->user->email}}</td>
                                             <td>
                                                 @if($visitor->is_active)
-                                                    <span class="label label-primary">Active</span>
+                                                    <span class="label label-primary status" id="{{$visitor->id}}">Active</span>
                                                 @else
-                                                    <span class="label label-default">Unactive</span>
+                                                    <span class="label label-default status" id="{{$visitor->id}}">Unactive</span>
                                                 @endif
                                             </td>
                                             <td class="text-left">
@@ -128,5 +128,6 @@
 
 @endsection
 @section('scripts')
+    @component('components.ajax.toggleStatus')@endcomponent
     @component('components.index.scripts')@endcomponent
 @endsection

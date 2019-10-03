@@ -78,9 +78,9 @@
                                         <td>{{$member->job->name}}</td>
                                         <td>
                                             @if($member->is_active)
-                                                <span class="label label-primary">Active</span>
+                                                <span class="label label-primary status" id="{{$member->id}}">Active</span>
                                             @else
-                                                <span class="label label-default">Unactive</span>
+                                                <span class="label label-default status" id="{{$member->id}}">In Active</span>
                                             @endif
                                         </td>
                                         <td class="text-left">
@@ -131,5 +131,6 @@
 
 @endsection
 @section('scripts')
+    @component('components.ajax.toggleStatus')@endcomponent
     @component('components.index.scripts')@endcomponent
 @endsection
