@@ -45,3 +45,4 @@ Route::group(['middleware'=>'auth'], function () {
 });
 
 Route::get('citiesByCountry/{country}', 'CityController@getCitiesByCountryId')->name('cityAjax');
+Route::PUT('toggle/status/{id}', 'ToggleController@toggleStatus');

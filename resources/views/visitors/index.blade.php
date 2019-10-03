@@ -76,9 +76,9 @@
                                         <td>{{$member->user->email}}</td>
                                         <td>
                                             @if($member->is_active)
-                                                <span class="label label-primary">Active</span>
+                                                <span class="label label-primary status" id="{{$member->id}}">Active</span>
                                             @else
-                                                <span class="label label-default">Unactive</span>
+                                                <span class="label label-default status" id="{{$member->id}}">In Active</span>
                                             @endif
                                         </td>
                                         <td class="text-left">
@@ -129,5 +129,27 @@
 
 @endsection
 @section('scripts')
+    <script>
+        $(document).ready(function () {
+            $('.status').click(function () {
+                let id = $(this).attr("id");
+                let element = $(this);
+                $.ajax({
+                    type:'PUT',
+                    url: `toggle/status/${id}`,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success:function(){
+                        element.toggleClass('label-primary label-default');
+                        (element.hasClass("label-primary")) ? element.text("Active") : element.text("In Active");
+                    },
+                    error:function () {
+                        alert("Server Error");
+                    }
+                })
+            });
+        });
+    </script>
     @component('components.index.scripts')@endcomponent
 @endsection

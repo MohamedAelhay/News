@@ -2,12 +2,14 @@
 
 namespace App;
 
+use App\Traits\Toggle;
 use App\Traits\ImageUpload;
 use Illuminate\Database\Eloquent\Model;
 use Webpatser\Countries\Countries;
 
 class Visitor extends Model
 {
+    use Toggle;
     use ImageUpload;
 
     protected $fillable = ['gender', 'user_id', 'city_id','country_id', 'is_active'];
