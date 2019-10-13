@@ -17,6 +17,7 @@ class CreateWorksTable extends Migration
             $table->increments('id');
             $table->string('name', 150);
             $table->string('description', 250);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -1,7 +1,7 @@
 @extends('app')
 @section('title', 'Roles Table')
 @section('styles')
-    @component('components.index.style')@endcomponent
+    <link rel="stylesheet" href={{asset("css/plugins/dataTables/datatables.min.css")}}>
 @endsection
 @section('content')
 <div id="wrapper">
@@ -13,11 +13,6 @@
         @component('components/navbar')
         @endcomponent
         <div class="row wrapper border-bottom white-bg page-heading">
-            @if (session('success'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('success') }}
-                </div>
-            @endif
             <div class="col-lg-10">
                 <h2>Roles</h2>
                 <ol class="breadcrumb">
@@ -30,13 +25,17 @@
                 </ol>
             </div>
         </div>
+        @if (session('success'))
+            <div class="alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
                             <h5>All Roles Index</h5>
-
                             <div class="ibox-tools">
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
@@ -45,10 +44,7 @@
                                     <i class="fa fa-wrench"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-user">
-                                    <li><a href={{url('roles/create')}}>Create New Role</a>
-                                    </li>
-                                    <li><a href="#">Config option 2</a>
-                                    </li>
+                                    <li><a href={{url('roles/create')}}>Create New Role</a></li>
                                 </ul>
                                 <a class="close-link">
                                     <i class="fa fa-times"></i>
@@ -56,45 +52,29 @@
                             </div>
                         </div>
                         <div class="ibox-content">
-
-                            <table class="footable table table-stripped toggle-arrow-tiny" id="index-table">
+                            <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover dataTables-example">
                                 <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th data-toggle="true">Description</th>
-                                    <th data-hide="all">Last Update</th>
-                                    <th data-hide="all">Created at</th>
+                                    <th>Description</th>
+                                    <th>Updated_At</th>
+                                    <th>Created_At</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
-{{--                                <tbody>--}}
-{{--                                @foreach($roles as $role)--}}
-{{--                                    <tr>--}}
-{{--                                        <td>{{$role->description}}</td>--}}
-{{--                                        <td>{{$role->name}}</td>--}}
-{{--                                        <td>{{$role->updated_at}}</td>--}}
-{{--                                        <td>{{$role->created_at}}</td>--}}
-{{--                                        <td class="text-left">--}}
-{{--                                            <div class="btn-group">--}}
-{{--                                                @can('show role')--}}
-{{--                                                <a class="btn-white btn btn-xs" href={{route('roles.show', $role->id)}}>View</a>--}}
-{{--                                                @can('edit role')--}}
-{{--                                                <a class="btn-white btn btn-xs" href={{route('roles.edit', $role->id)}}>Edit</a>--}}
-{{--                                                @can('delete role')--}}
-{{--                                                <form method="POST" role="form" class="form-horizontal" style="display: inline;" action={{route('roles.destroy', $role->id)}}>--}}
-{{--                                                @csrf--}}
-{{--                                                @method('DELETE')--}}
-{{--                                                    <button class="btn-white btn btn-xs">Delete</button>--}}
-{{--                                                </form>--}}
-{{--                                                @endcan--}}
-{{--                                                @endcan--}}
-{{--                                                @endcan--}}
-{{--                                            </div>--}}
-{{--                                        </td>--}}
-{{--                                    </tr>--}}
-{{--                                @endforeach--}}
-{{--                                </tbody>--}}
+                                {{--<tbody>rendered by DataTable</tbody>--}}
+                                <tfoot>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Updated_At</th>
+                                    <th>Created_At</th>
+                                    <th>Action</th>
+                                </tr>
+                                </tfoot>
                             </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -114,5 +94,47 @@
 
 @endsection
 @section('scripts')
-    @component('components.index.scripts')@endcomponent
+<script src={{asset("js/plugins/dataTables/datatables.min.js")}}></script>
+<!-- Custom and plugin javascript -->
+<script src={{ asset("js/inspinia.js")}}></script>
+<script src={{ asset("js/plugins/pace/pace.min.js")}}></script>
+    <script>
+        $(document).ready(function(){
+            $('.dataTables-example').DataTable({
+                pageLength: 5,
+                lengthMenu: [[1, 5, 10, -1], [1, 5, 10, "All"]],
+                responsive: true,
+                dom: '<"html5buttons"B>lTfgitp',
+                buttons: [
+                    {extend: 'copy'},
+                    {extend: 'csv'},
+                    {extend: 'excel', title: 'ExampleFile'},
+                    {extend: 'pdf', title: 'ExampleFile'},
+
+                    {extend: 'print',
+                        customize: function (win){
+                            $(win.document.body).addClass('white-bg');
+                            $(win.document.body).css('font-size', '10px');
+
+                            $(win.document.body).find('table')
+                                .addClass('compact')
+                                .css('font-size', 'inherit');
+                        }
+                    }
+                ],
+                processing: true,
+                // serverSide: true,
+                ajax: "{{ route("roles.index") }}",
+                columns: [
+                    {data: 'name'},
+                    {data: 'description'},
+                    {data: 'updated_at'},
+                    {data: 'created_at'},
+                    {data: 'actions', orderable: false, searchable: false}
+                ]
+
+            });
+
+        });
+    </script>
 @endsection

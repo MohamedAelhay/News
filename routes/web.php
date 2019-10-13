@@ -42,7 +42,13 @@ Route::group(['middleware'=>'auth'], function () {
     Route::resource('staff', 'StaffController');
     Route::resource('cities', 'CityController');
     Route::resource('visitors', 'VisitorController');
+    Route::resource('articles', 'ArticleController');
 });
 
 Route::get('citiesByCountry/{country}', 'CityController@getCitiesByCountryId')->name('cityAjax');
-Route::PUT('toggle/status/{id}', 'ToggleController@toggleStatus');
+Route::get('staff/index/ajax/{work_id}', "StaffController@getStaffByJob");
+Route::PUT('toggle/active/{id}', 'ToggleController@activation');
+Route::PUT('toggle/publish/{id}', 'ToggleController@publish');
+
+Route::post('uploads/file', 'UploadController@file')->name("upload.file");
+Route::post('uploads/image', 'UploadController@image')->name("upload.image");

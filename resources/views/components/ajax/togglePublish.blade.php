@@ -5,13 +5,13 @@
             let element = $(this);
             $.ajax({
                 type:'PUT',
-                url: "{{url("toggle/active")}}/" + id,
+                url: "{{url("toggle/publish")}}/" + id,
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success:function(){
                     element.toggleClass('label-primary label-default');
-                    (element.hasClass("label-primary")) ? element.text("Active") : element.text("In Active");
+                    (element.hasClass("label-primary")) ? element.text("Publish") : element.text("Un-publish");
                 },
                 error:function () {
                     alert("Server Error");

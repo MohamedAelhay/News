@@ -42,6 +42,7 @@ class CreateStaffTable extends Migration
                 ->on('countries')
                 ->onDelete('cascade');
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

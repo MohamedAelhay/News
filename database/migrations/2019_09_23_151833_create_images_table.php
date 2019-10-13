@@ -19,6 +19,7 @@ class CreateImagesTable extends Migration
             $table->unsignedInteger('imgable_id')->nullable();
             $table->string('imgable_type')->nullable();
             $table->string('image');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

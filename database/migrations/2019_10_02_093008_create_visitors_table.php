@@ -35,6 +35,7 @@ class CreateVisitorsTable extends Migration
                 ->references('id')
                 ->on('countries')
                 ->onDelete('cascade');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -1,7 +1,7 @@
 @extends('app')
 @section('title', 'Staff Table')
 @section('styles')
-    @component('components.index.style')@endcomponent
+    <link rel="stylesheet" href={{asset("css/plugins/dataTables/datatables.min.css")}}>
 @endsection
 @section('content')
 <div id="wrapper">
@@ -52,66 +52,20 @@
                             </div>
                         </div>
                         <div class="ibox-content">
-
-                            <table class="footable table table-stripped toggle-arrow-tiny">
-                                <thead>
-                                <tr>
-                                    <th data-toggle="true">First Name</th>
-                                    <th>Last Name</th>
-                                    <th>E-mail</th>
-                                    <th>Job</th>
-                                    <th>Active</th>
-                                    <th>Action</th>
-                                    <th data-hide="all">Phone</th>
-                                    <th data-hide="all">Gender</th>
-                                    <th data-hide="all">City</th>
-                                    <th data-hide="all">Country</th>
-                                    <th data-hide="all">Image</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($staff as $member)
-                                    <tr>
-                                        <td>{{$member->user->fname}}</td>
-                                        <td>{{$member->user->lname}}</td>
-                                        <td>{{$member->user->email}}</td>
-                                        <td>{{$member->job->name}}</td>
-                                        <td>
-                                            @if($member->is_active)
-                                                <span class="label label-primary status" id="{{$member->id}}">Active</span>
-                                            @else
-                                                <span class="label label-default status" id="{{$member->id}}">In Active</span>
-                                            @endif
-                                        </td>
-                                        <td class="text-left">
-                                            <div class="btn-group">
-                                                <a class="btn-white btn btn-xs" href={{route('staff.show', $member->id)}}>View</a>
-                                                <a class="btn-white btn btn-xs" href={{route('staff.edit', $member->id)}}>Edit</a>
-                                                <form method="POST" role="form" class="form-horizontal" style="display: inline;" action={{route('staff.destroy', $member->id)}}>
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button class="btn-white btn btn-xs">Delete</button>
-                                                </form>
-                                            </div>
-                                        </td>
-                                        <td>{{$member->user->phone}}</td>
-                                        <td>{{$member->gender}}</td>
-                                        <td>{{$member->city->name}}</td>
-                                        <td>{{$member->country->name}}</td>
-                                        <td><img src="{{ Storage::url($member->images[0]->image)}}"
-                                                             alt="No Image" class="img-thumbnail" height="50px" width="100px"></td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <td colspan="5">
-                                        <ul class="pagination pull-right"></ul>
-                                    </td>
-                                </tr>
-                                </tfoot>
-                            </table>
-
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Job</th>
+                                            <th>Active</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    {{--<tbody>rendered by DataTable</tbody>--}}
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -131,6 +85,68 @@
 
 @endsection
 @section('scripts')
-    @component('components.ajax.toggleStatus')@endcomponent
-    @component('components.index.scripts')@endcomponent
+
+    <script src={{asset("js/plugins/dataTables/datatables.min.js")}}></script>
+    <!-- Custom and plugin javascript -->
+    <script src={{ asset("js/inspinia.js")}}></script>
+    <script src={{ asset("js/plugins/pace/pace.min.js")}}></script>
+
+    <script>
+        $(document).ready(function(){
+            $('.dataTables-example').DataTable({
+                pageLength: 5,
+                lengthMenu: [[1, 5, 10, -1], [1, 5, 10, "All"]],
+                responsive: true,
+                dom: '<"html5buttons"B>lTfgitp',
+                buttons: [
+                    {extend: 'copy'},
+                    {extend: 'csv'},
+                    {extend: 'excel', title: 'ExampleFile'},
+                    {extend: 'pdf', title: 'ExampleFile'},
+
+                    {extend: 'print',
+                        customize: function (win){
+                            $(win.document.body).addClass('white-bg');
+                            $(win.document.body).css('font-size', '10px');
+
+                            $(win.document.body).find('table')
+                                .addClass('compact')
+                                .css('font-size', 'inherit');
+                        }
+                    }
+                ],
+                processing: true,
+                // serverSide: true,
+                ajax: "{{ route("staff.index") }}",
+                columns: [
+                    {data: 'user.fname'},
+                    {data: 'user.lname'},
+                    {data: 'job.name'},
+                    {data: 'is_active'},
+                    {data: 'actions', orderable: false, searchable: false}
+                ]
+            });
+            setTimeout( function () {
+                $('.status').click(function () {
+                    let id = $(this).attr("id");
+                    let element = $(this);
+                    $.ajax({
+                        type:'PUT',
+                        url: "{{url("toggle/active")}}/" + id,
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success:function(){
+                            element.toggleClass('label-primary label-default');
+                            (element.hasClass("label-primary")) ? element.text("Active") : element.text("In Active");
+                        },
+                        error:function () {
+                            alert("Server Error");
+                        }
+                    })
+                });
+                console.log("Ready")
+            }, 200);
+        });
+    </script>
 @endsection

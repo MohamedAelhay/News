@@ -3,9 +3,10 @@
 
 namespace App\Traits;
 
-trait ImageUpload
+trait Uploads
 {
     public $imagePath;
+    public $filePath;
 
     /**
      * Upload an Image.
@@ -14,9 +15,15 @@ trait ImageUpload
      * @param  string filesystem disk name $disk
      * @return $this
      */
-    public function upload($image, $disk = 'public')
+    public function imageUpload($image, $disk = 'public')
     {
         $this->imagePath = $image->store($this->getTable() . '/images', $disk);
+        return $this;
+    }
+
+    public function fileUpload($file, $disk = 'public')
+    {
+        $this->filePath = $file->store($this->getTable() . 'files', $disk);
         return $this;
     }
 }

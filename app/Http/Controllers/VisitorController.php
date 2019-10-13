@@ -4,19 +4,30 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Visitor;
+use Illuminate\Http\Request;
 use Webpatser\Countries\Countries;
 use App\Jobs\SendNewStaffResetPassword;
+use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\visitors\VisitorRequest;
 
 class VisitorController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Illuminate\Http\Request
      */
-    public function index()
+    public function index(Request $request)
     {
+        if($request->ajax()){
+            return DataTables::eloquent(Visitor::query()->with("user"))
+                ->addColumn('actions', function ($visitor){
+                    return view('visitors.actions', compact('visitor'));
+                })
+                ->editColumn('is_active', function ($visitor){
+                    return view('visitors.active', compact('visitor'));
+                })
+                ->toJson();
+        }
         return view(
             'visitors.index', [
                 'visitors' => Visitor::all()
@@ -102,7 +113,7 @@ class VisitorController extends Controller
 
         if($request->file('image'))
         {
-            $visitor->upload($request->file('image'))
+            $visitor->imageUpload($request->file('image'))
                     ->images()
                     ->create(['image'=>$visitor->imagePath]);
         }
@@ -120,6 +131,7 @@ class VisitorController extends Controller
     public function destroy(Visitor $visitor)
     {
         $visitor->user->delete();
+        $visitor->delete();
 
         return redirect()->route('visitors.index')->with(
             [

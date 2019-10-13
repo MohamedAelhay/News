@@ -25,11 +25,6 @@ class RoleController extends Controller
 
     public function index(Request $request)
     {
-//        dd(DataTables::eloquent(Role::query())
-//            ->addColumn('Actions', function ($role){
-//                return view('roles.actions', compact('role'));
-//            })
-//            ->toJson());
         if($request->ajax()){
             return DataTables::eloquent(Role::query())
                 ->addColumn('actions', function ($role){

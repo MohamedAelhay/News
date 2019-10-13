@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Article;
 use App\Staff;
 use App\Visitor;
 use Illuminate\Support\Facades\Route;
@@ -15,20 +16,28 @@ class ToggleController extends Controller
     protected const MODELS = [
         "staff" => Staff::class,
         "visitors" => Visitor::class,
+        "articles" => Article::class
     ];
 
     public function __construct()
     {
-        $id = Route::current()->parameter('id');
+//        $id = Route::current()->parameter('id');
         $this->getTableName()
              ->getModelName()
-             ->getInstance()
-             ->getObject($id);
+             ->getInstance();
+//             ->getObject($id);
     }
 
-    public function toggleStatus($id)
+    public function activation($id)
     {
-        $this->object->updateStatus();
+        $this->getObject($id);
+        $this->object->toggleActive();
+    }
+
+    public function publish($id)
+    {
+        $this->getObject($id);
+        $this->object->togglePublish();
     }
 
     protected function getTableName()

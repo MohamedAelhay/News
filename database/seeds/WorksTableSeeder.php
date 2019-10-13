@@ -12,7 +12,7 @@ class WorksTableSeeder extends Seeder
      */
     public function run()
     {
-        Work::create(['name' => 'Writer',   'description' => 'Article Writer']);
-        Work::create(['name' => 'Reporter', 'description' => 'News Reporter']);
+        Work::create(['name' => 'Writer',   'description' => 'Article']);
+        Work::create(['name' => 'Reporter', 'description' => 'News']);
     }
 }

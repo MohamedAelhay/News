@@ -6,12 +6,14 @@ use App\City;
 use App\Work;
 use App\User;
 use App\Staff;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Webpatser\Countries\Countries;
 use Illuminate\Http\RedirectResponse;
 use App\Jobs\SendNewStaffResetPassword;
 use App\Http\Requests\staff\StaffStoreRequest;
 use App\Http\Requests\staff\StaffUpdateRequest;
+use Yajra\DataTables\Facades\DataTables;
 
 class StaffController extends Controller
 {
@@ -20,18 +22,21 @@ class StaffController extends Controller
         $this->authorizeResource(Staff::class, 'staff');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
+    public function index(Request $request)
     {
+        if($request->ajax()){
+            return DataTables::eloquent(Staff::query()->with("user", "job"))
+                ->addColumn('actions', function ($staff){
+                    return view('staff.actions', compact('staff'));
+                })
+                ->editColumn('is_active', function ($staff){
+                    return view('staff.active', compact('staff'));
+                })
+                ->toJson();
+        }
+
         return view(
-            'staff.index', [
-                'staff' => Staff::all()
-            ]
-        );
+            'staff.index');
     }
 
     /**
@@ -61,7 +66,7 @@ class StaffController extends Controller
         $user->staff()->create($request->all());
 
         $user->staff
-            ->upload($request->file('image'))
+            ->imageUpload($request->file('image'))
             ->images()
             ->create(['image' => $user->staff->imagePath]);
 
@@ -114,7 +119,7 @@ class StaffController extends Controller
 
         $staff->user->update($request->all());
 
-        $staff->upload($request->file('image'))
+        $staff->imageUpload($request->file('image'))
               ->images()
               ->create(['image' => $staff->imagePath]);
 
@@ -133,11 +138,36 @@ class StaffController extends Controller
     public function destroy(Staff $staff)
     {
         $staff->user->delete();
+        $staff->delete();
 
         return redirect()->route('staff.index')->with(
             [
                 'success' => 'Staff Member "'.$staff->user->fname.' '.$staff->user->lname.'" has been Deleted.'
             ]
         );
+    }
+
+    public function getStaffByJob($work_id)
+    {
+//        $tt = DataTables::eloquent(User::query()->select("id", "fname")->with(["staff" => function($query){
+//            return $query->with(["job" => function($query){
+//                return $query->where("name", "Writer");
+//            }]);
+//        }]))->toJson();
+//
+//        $t2 = DataTables::eloquent(User::query()
+//                ->select("id", "fname")
+//                ->whereHas("staff", function ($query){
+//                    return $query->whereHas("job", function ($query){
+//                       return $query->where("name", "Writer");
+//                    });
+//                })
+//            )
+//            ->toJson();
+        $users = Staff::where("work_id", $work_id)
+            ->with("user")
+            ->get()
+            ->pluck("user.fname", "user.id");
+        return Response()->json($users);
     }
 }

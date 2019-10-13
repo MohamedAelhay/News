@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\City;
-use App\User;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Webpatser\Countries\Countries;
+use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\cities\CityStoreRequest;
 use App\Http\Requests\cities\CityUpdateRequest;
 
@@ -17,18 +18,17 @@ class CityController extends Controller
         $this->authorizeResource(City::class, 'city');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
+    public function index(Request $request)
     {
-        return view(
-            'cities.index', [
-            'cities' => City::paginate(10)
-            ]
-        );
+        if($request->ajax()){
+            return DataTables::eloquent(City::query()->with("country"))
+                ->addColumn('actions', function ($city){
+                    return view('cities.actions', compact('city'));
+                    })
+                ->toJson();
+        }
+
+        return view('cities.index');
     }
 
     /**
