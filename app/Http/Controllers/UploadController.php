@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\uploads\FileRequest;
 use App\Http\Requests\uploads\ImageRequest;
-use Illuminate\Http\Request;
 
 class UploadController extends Controller
 {

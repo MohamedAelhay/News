@@ -45,9 +45,8 @@
                             <div class="form-group col-sm-6 row"><label class="col-sm-4 control-label" style="margin-top:-12px">Type<br/><small class="text-navy">List</small></label>
                                 <select name="type" class="col-sm-8" id="articleType">
                                     <option value="" disabled>Select Type</option>
-                                    @foreach($works as $key => $name)
-                                        <option value="{{$key}}">{{$name}}</option>
-                                    @endforeach
+                                    <option value=1>Article</option>
+                                    <option value=2>News</option>
                                 </select>
                                 @component('components.error', ['errorName'=>'type'])@endcomponent
                             </div>

@@ -2,17 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\articles\ArticleStoreRequest;
-use App\Http\Requests\articles\ArticleUpdateRequest;
-use App\Work;
 use App\Article;
+use App\Services\ArticleService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Yajra\DataTables\Facades\DataTables;
+use App\Http\Requests\articles\ArticleStoreRequest;
+use App\Http\Requests\articles\ArticleUpdateRequest;
 
 
 class ArticleController extends Controller
 {
+    protected $article_service;
+
+    public function __construct(ArticleService $service)
+    {
+        $this->article_service = $service;
+    }
 
     public function index(Request $request)
     {
@@ -33,21 +39,20 @@ class ArticleController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
         return view("articles.create", [
-            "articles" => Article::all()->pluck("main_title", "id"),
-            'works' => Work::pluck("description", "id"),
+            "articles" => Article::pluck("main_title", "id"),
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param ArticleStoreRequest $request
+     * @return Response
      */
     public function store(ArticleStoreRequest $request)
     {
@@ -68,7 +73,7 @@ class ArticleController extends Controller
      * Display the specified resource.
      *
      * @param  \App\article  $article
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(article $article)
     {
@@ -81,37 +86,27 @@ class ArticleController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\article  $article
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit(article $article)
     {
         return view('articles.edit', [
            "topic" => $article,
-           "articles" => Article::all()->pluck("main_title", "id"),
+           "articles" => Article::pluck("main_title", "id"),
            "related" => $article->relatedTopics->pluck("related_id"),
-           "works" => Work::pluck("description", "id"),
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  \App\article  $article
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function update(ArticleUpdateRequest $request, article $article)
+    public function update(ArticleUpdateRequest $request, $article)
     {
-        $article->update($request->all());
-
-        $article->images()->delete();
-        $article->images()->createMany($this->getAttr("image", $request->input("images")));
-
-        $article->documents()->delete();
-        $article->documents()->createMany($this->getAttr('document', $request->input("files")));
-
-        $article->relatedTopics()->delete();
-        $article->relatedTopics()->createMany($this->getAttr("related_id", $request->input("related_id")));
+        $this->article_service->update($request->input(), $article);
 
         return redirect()->route('articles.index')->with([
             'success' => 'Article "'.$request->main_title.'" has been Updated.'
@@ -122,25 +117,16 @@ class ArticleController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\article  $article
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(article $article)
     {
-        $article->relatedTopics()->delete();
         $article->delete();
+
         return redirect()->route('articles.index')->with(
             [
                 'success' => 'Topic "'.$article->main_title .'" has been Deleted.'
             ]
         );
-    }
-
-    public function getAttr($attr, $inputs)
-    {
-        $arr = array();
-        foreach($inputs as $input){
-            $arr[] = [$attr=>$input];
-        }
-        return $arr;
     }
 }

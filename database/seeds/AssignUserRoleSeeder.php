@@ -12,8 +12,8 @@ class AssignUserRoleSeeder extends Seeder
      */
     public function run()
     {
-        User::find(1)->assignRole('admin');
-        User::find(2)->assignRole('staff');
-        User::find(3)->assignRole('visitor');
+        User::find(1)->assignRole('Admin');
+        User::find(2)->assignRole('Staff');
+        User::find(3)->assignRole('Visitor');
     }
 }

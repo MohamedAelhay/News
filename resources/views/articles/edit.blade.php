@@ -45,9 +45,8 @@
                             <div class="form-group col-sm-6 row"><label class="col-sm-4 control-label" style="margin-top:-12px">Type<br/><small class="text-navy">List</small></label>
                                 <select name="type" class="col-sm-8" id="articleType">
                                     <option value="{{ $topic->type }}">{{($topic->type == 1) ? "News" : "Article"}}</option>
-                                    @foreach($works as $key => $name)
-                                        <option value="{{$key}}">{{$name}}</option>
-                                    @endforeach
+                                    <option value=1>Article</option>
+                                    <option value=2>News</option>
                                 </select>
                                 @component('components.error', ['errorName'=>'type'])@endcomponent
                             </div>
@@ -138,27 +137,32 @@
         },
         removedfile: function (file) {
             file.previewElement.remove()
-            let name = ''
-            if (typeof file.file_name !== 'undefined') {
-                name = file.file_name
+
+            if(file.id){
+                $('form').append('<input type="hidden" name="deleted_images[]" value="' + file.id + '">')
             } else {
-                name = uploadedDocumentMap[file.name]
+                $('form').find('input[name="images[]"][value="' + uploadedDocumentMap[file.name] + '"]').remove()
             }
-            $('form').find('input[name="images[]"][value="' + name + '"]').remove()
+
         },
-        {{--init: function () {--}}
-        {{--        @if(isset($topic) && $topic->images)--}}
-        {{--    var files =--}}
-        {{--    {!! json_encode($topic->images) !!}--}}
-        {{--        for (var i in files) {--}}
-        {{--        var file = files[i]--}}
-        {{--        this.options.addedfile.call(this, file)--}}
-        {{--        file.previewElement.classList.add('dz-complete')--}}
-        {{--        console.log(file.image)--}}
-        {{--        $('form').append('<input type="hidden" name="images[]" value="/storage/'+file.image+'">')--}}
-        {{--    }--}}
-        {{--    @endif--}}
-        {{--}--}}
+        init: function () {
+            @if(isset($topic) && $topic->images)
+                let files =
+                {!! json_encode($topic->images) !!}
+                    for (let i in files) {
+                    let file = {};
+                    file.id = files[i].id;
+                    file.name = "Image";
+                    file.size = "2000000";
+                    file.path = "{{env("APP_URL")}}/storage/" + files[i].image;
+                    console.log(files[i].image)
+                    this.emit('addedfile', file);
+                    this.emit('thumbnail', file, file.path);
+                    this.emit('completed', file);
+                    file.previewElement.classList.add('dz-complete')
+                }
+            @endif
+        }
     }
 
     let uploadedDocumentMap2 = {}
@@ -176,26 +180,31 @@
         },
         removedfile: function (file) {
             file.previewElement.remove()
-            let name = ''
-            if (typeof file.file_name !== 'undefined') {
-                name = file.file_name
+
+            if(file.id){
+                $('form').append('<input type="hidden" name="deleted_files[]" value="' + file.id + '">')
             } else {
-                name = uploadedDocumentMap2[file.name]
+                $('form').find('input[name="files[]"][value="' + uploadedDocumentMap2[file.name] + '"]').remove()
             }
-            $('form').find('input[name="files[]"][value="' + name + '"]').remove()
         },
-        {{--init: function () {--}}
-        {{--        @if(isset($topic) && $topic->documents)--}}
-        {{--    var files =--}}
-        {{--    {!! json_encode($topic->documents) !!}--}}
-        {{--        for (var i in files) {--}}
-        {{--        var file = files[i]--}}
-        {{--        this.options.addedfile.call(this, file)--}}
-        {{--        file.previewElement.classList.add('dz-complete')--}}
-        {{--        $('form').append('<input type="hidden" name="files[]" value="' + file.document + '">')--}}
-        {{--    }--}}
-        {{--    @endif--}}
-        {{--}--}}
+        init: function () {
+            @if(isset($topic) && $topic->documents)
+                let files =
+                {!! json_encode($topic->documents) !!}
+                for (let i in files) {
+                    let file = {};
+                    file.id = files[i].id;
+                    file.name = "Document";
+                    file.size = "2000000";
+                    file.path = "{{env("APP_URL")}}/storage/" + files[i].document;
+
+                    this.emit('addedfile', file);
+                    this.emit('thumbnail', file, file.path);
+                    this.emit('completed', file);
+                    file.previewElement.classList.add('dz-complete')
+                }
+            @endif
+        }
     }
 </script>
     <!-- Select2 -->
@@ -217,7 +226,6 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success:function(users){
-                        console.log(users)
                         $('#userType').empty()
                         if(Object.keys(users).length != 0)
                         {

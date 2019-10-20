@@ -2,6 +2,11 @@
 
 namespace App\Providers;
 
+use App\Article;
+use App\Repos\ArticleRepo;
+use App\Contracts\ArticleContract;
+use App\Observers\ArticleObserver;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        App::bind(ArticleContract::class, ArticleRepo::class);
     }
 
     /**
@@ -23,6 +28,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Article::observe(ArticleObserver::class);
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\articles;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Foundation\Http\FormRequest;
 
 class ArticleUpdateRequest extends FormRequest
 {
@@ -14,7 +14,7 @@ class ArticleUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,14 +25,14 @@ class ArticleUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'main_title' => ['required','string','max:150','min:3',Rule::unique('articles','main_title')->ignore($this->main_title)],
-            'second_title' => 'required|string|max:150|min:3',
-            'content' => 'required|string',
-            'type' => 'required|string',
-            'related_id' => 'required',
-            'user_id' => 'required',
-            'images' => 'required',
-            'files' => 'required',
+            'main_title' => ['string','max:150','min:3',Rule::unique('articles','main_title')->ignore($this->article)],
+            'second_title' => 'string|max:150|min:3',
+            'content' => 'string',
+            'type' => 'exists:works,id',
+            'related_id' => 'exists:articles,id',
+            'user_id' => 'exists:users,id',
+//            'images' => 'required',
+//            'files' => 'required',
         ];
     }
 }

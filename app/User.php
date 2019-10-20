@@ -44,7 +44,7 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return auth()->user()->hasRole('admin');
+        return auth()->user()->hasRole('Admin');
     }
 
     public static function generatePassword()
