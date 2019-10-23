@@ -44,6 +44,12 @@
                     <li @if(isActive("articles*")) class="active" @endif><a href={{route('articles.index')}}>Articles</a></li>
                 </ul>
             </li>
+            <li @if(isActive("events*")) class="active" @endif>
+                <a href="#"><i class="fa fa-files-o"></i> <span class="nav-label">Event</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+                    <li @if(isActive("events*")) class="active" @endif><a href={{route('events.index')}}>Events</a></li>
+                </ul>
+            </li>
         </ul>
     </div>
 </nav>

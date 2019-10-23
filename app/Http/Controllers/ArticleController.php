@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Article;
 use App\Services\ArticleService;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Yajra\DataTables\Facades\DataTables;
@@ -116,8 +117,9 @@ class ArticleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\article  $article
+     * @param \App\article $article
      * @return Response
+     * @throws Exception
      */
     public function destroy(article $article)
     {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Visitor;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Webpatser\Countries\Countries;
 use App\Jobs\SendNewStaffResetPassword;
@@ -15,6 +16,7 @@ class VisitorController extends Controller
     /**
      * Display a listing of the resource.
      * @param Illuminate\Http\Request
+     * @return Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
     public function index(Request $request)
     {

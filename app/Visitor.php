@@ -36,4 +36,22 @@ class Visitor extends Model
     {
         return $this->morphMany(Image::class, 'imgable');
     }
+
+    public function events()
+    {
+        return $this->belongsToMany(Event::class);
+    }
+
+    public function scopeVisitorUser($query)
+    {
+        return $query->whereHas('user');
+    }
+
+    public function scopeVisitorUserNotUsed($query, $term)
+    {
+        return $query->whereHas('user', function ($q) use ($term){
+            return $q->where('fname', 'like', "%$term%")
+                ->orWhere('lname', 'like', "%$term%");
+        });
+    }
 }
