@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call(NewsArticleTableSeeder::class);
         $this->call(RelatedTopicsTableSeeder::class);
         $this->call(EventTableSeeder::class);
+        $this->call(FoldersTableSeeder::class);
         $this->command->info('Seeded the countries!');
     }
 }

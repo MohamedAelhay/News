@@ -50,6 +50,12 @@
                     <li @if(isActive("events*")) class="active" @endif><a href={{route('events.index')}}>Events</a></li>
                 </ul>
             </li>
+            <li @if(isActive("folders*")) class="active" @endif>
+                <a href="#"><i class="fa fa-files-o"></i> <span class="nav-label">Folder</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+                    <li @if(isActive("folders*")) class="active" @endif><a href={{route('folders.index')}}>Folders</a></li>
+                </ul>
+            </li>
         </ul>
     </div>
 </nav>

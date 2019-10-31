@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\City;
+use App\Folder;
 use App\Policies\CityPolicy;
+use App\Policies\FolderPolicy;
 use App\Policies\RolePolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -18,7 +20,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Role::class => RolePolicy::class,
-        City::class => CityPolicy::class
+        City::class => CityPolicy::class,
+        Folder::class => FolderPolicy::class
     ];
 
     /**
@@ -32,7 +35,7 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::before(function ($user)
         {
-            return $user->isAdmin();
+            return $user->isAdmin() ? true : null;
         });
     }
 }

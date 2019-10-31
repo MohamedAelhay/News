@@ -44,6 +44,10 @@ Route::group(['middleware'=>'auth'], function () {
     Route::resource('visitors', 'VisitorController');
     Route::resource('articles', 'ArticleController');
     Route::resource('events', 'EventController');
+    Route::resource('folders', 'FolderController');
+
+    Route::resource('folder/{folder}/upload', 'FolderUploadController');
+
 });
 
 Route::get('citiesByCountry/{country}', 'CityController@getCitiesByCountryId')->name('cityAjax');
